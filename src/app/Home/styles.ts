@@ -7,6 +7,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 64,
+    gap: 24,
+    backgroundColor: colors.GRAY_100
   },
   header: {
     paddingBottom: 20,
@@ -30,5 +32,10 @@ export const styles = StyleSheet.create({
     lineHeight: 14 * 1.4,
     fontSize: 14,
     color: colors.GRAY_500
+  },
+  search: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8
   }
 })
