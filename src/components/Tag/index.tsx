@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native'
+import { View, Text, ViewProps } from 'react-native'
 import { styles, getTagConfig } from './styles'
 import { TagStatus } from '@/types/TagStatus'
 
-type Props = {
+type Props = ViewProps & {
   status: TagStatus
 }
 
