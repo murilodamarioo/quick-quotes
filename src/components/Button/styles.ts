@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.bold,
     fontSize: 14,
     lineHeight: 14 * 1.4, // 140%
-    color: colors.WHITE
+    color: colors.WHITE,
+    paddingRight: 8
   }
 })
