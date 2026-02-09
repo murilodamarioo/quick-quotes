@@ -10,9 +10,6 @@ export const styles = StyleSheet.create({
 
     backgroundColor: colors.GRAY_100,
     padding: 16,
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    borderRadius: 10,
   },
   titleContainer: {
     flex: 1,
