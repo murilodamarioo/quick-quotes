@@ -7,6 +7,8 @@ import { Input } from '@/components/Input'
 import { FilterButton } from '@/components/FilterButton'
 import { Card } from '@/components/Card'
 
+import { StackRoutesProps } from '@/routes/StackRoutes'
+
 import { TagStatus } from '@/types/TagStatus'
 
 const data = [
@@ -75,7 +77,7 @@ const data = [
   },
 ]
 
-export function Home() {
+export function Home({ navigation }: StackRoutesProps<'home'>) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -85,7 +87,11 @@ export function Home() {
           <Text style={styles.subtitle}>Você tem 1 item em rascunho</Text>
         </View>
 
-        <Button name='add' title='Novo' />
+        <Button
+          name='add'
+          title='Novo'
+          onPress={() => navigation.navigate('new_budget')}
+        />
       </View>
 
       <View style={styles.search}>
