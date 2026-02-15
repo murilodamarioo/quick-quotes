@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
@@ -15,9 +14,10 @@ export const styles = StyleSheet.create({
     height: 48,
   },
   input: {
+    flex: 1,
     fontSize: 16,
     lineHeight: 14 * 1.4,
     color: colors.GRAY_500,
-
+    paddingVertical: 16
   }
 })

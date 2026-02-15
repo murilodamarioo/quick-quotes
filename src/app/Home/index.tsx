@@ -84,7 +84,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
 
         <View style={styles.headerTitle}>
           <Text style={styles.title}>Orçamentos</Text>
-          <Text style={styles.subtitle}>Você tem 1 item em rascunho</Text>
+          <Text style={styles.drawInfo}>Você tem 1 item em rascunho</Text>
         </View>
 
         <Button
@@ -95,10 +95,9 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
       </View>
 
       <View style={styles.search}>
-        <Input
-          icon='search'
-          placeholder='Título ou cliente'
-        />
+        <View style={{ flex: 1 }}>
+          <Input icon="search" placeholder="Título ou cliente" />
+        </View>
 
         <FilterButton icon='tune' />
       </View>

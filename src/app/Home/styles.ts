@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     lineHeight: 14 * 1.4,
     fontSize: 18
   },
-  subtitle: {
+  drawInfo: {
     fontFamily: fontFamily.regular,
     lineHeight: 14 * 1.4,
     fontSize: 14,
