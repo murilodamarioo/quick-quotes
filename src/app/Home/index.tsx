@@ -10,6 +10,7 @@ import { Card } from '@/components/Card'
 import { StackRoutesProps } from '@/routes/StackRoutes'
 
 import { TagStatus } from '@/types/TagStatus'
+import { colors } from '@/themes'
 
 const data = [
   {
@@ -91,6 +92,8 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
           name='add'
           title='Novo'
           onPress={() => navigation.navigate('new_budget')}
+          viewStyle={{ backgroundColor: colors.PURPULE_BASE }}
+          textStyle={{ color: colors.WHITE }}
         />
       </View>
 

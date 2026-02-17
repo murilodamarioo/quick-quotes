@@ -18,5 +18,8 @@ export const styles = StyleSheet.create({
   },
   form: {
     gap: 12
+  },
+  items: {
+    gap: 20
   }
 })

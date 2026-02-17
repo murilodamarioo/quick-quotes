@@ -3,7 +3,9 @@ import { View } from 'react-native'
 
 import { styles } from './styles'
 
+import { Item } from '@/components/Item'
 import { Input } from '@/components/Input'
+import { Button } from '@/components/Button'
 import { TagOption } from '@/components/TagOption'
 import { PageHeader } from '@/components/PageHeader'
 import { BudgetContent } from '@/components/BudgetContent'
@@ -11,6 +13,8 @@ import { BudgetContent } from '@/components/BudgetContent'
 import { StackRoutesProps } from '@/routes/StackRoutes'
 
 import { TagStatus } from '@/types/TagStatus'
+import { colors } from '@/themes'
+
 
 export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
   const [tagType, setTagType] = useState(TagStatus.DRAW)
@@ -39,8 +43,33 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
           />
         </BudgetContent>
 
-        <BudgetContent icon='file-text' title='Serviços inclusos'>
+        <BudgetContent style={{ paddingHorizontal: 20 }} icon='file-text' title='Serviços inclusos'>
+          <View style={styles.items}>
+            <Item
+              title='Design de interfaces'
+              description='Criação de wireframes e protótipos de alta fidelidade'
+              quantity={1}
+              price={100}
+            />
+            <Item
+              title='Design de interfaces'
+              description='Criação de wireframes e protótipos de alta fidelidade'
+              quantity={1}
+              price={100}
+            />
 
+            <Button
+              name='add'
+              title='Adicionar serviço'
+              onPress={() => console.log('Adicionar serviço')}
+              viewStyle={{
+                backgroundColor: colors.GRAY_100,
+                borderWidth: 1,
+                borderColor: colors.GRAY_300
+              }}
+              textStyle={{ color: colors.PURPULE_BASE }}
+            />
+          </View>
         </BudgetContent>
       </View>
     </View>

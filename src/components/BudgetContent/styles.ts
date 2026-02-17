@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     color: colors.GRAY_500
   },
   content: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     paddingVertical: 16,
   }
 })
