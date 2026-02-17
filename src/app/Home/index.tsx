@@ -109,6 +109,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         data={data}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
+        ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
         renderItem={({ item }) => (
           <Card
             title={item.title}

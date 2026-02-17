@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { styles } from './styles'
 
 type Props = TouchableOpacityProps & {
-  name: keyof typeof MaterialIcons.glyphMap
+  name?: keyof typeof MaterialIcons.glyphMap
   title: string
   viewStyle?: ViewStyle
   textStyle?: TextStyle

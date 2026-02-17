@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
   container: {
     gap: 12,
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    minWidth: 318
   },
   option: {
     flex: 1,

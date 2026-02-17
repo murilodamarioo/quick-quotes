@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     flexDirection: 'row',
     gap: 12,
-
+    borderRadius: 10,
     backgroundColor: colors.GRAY_100,
     padding: 16,
   },

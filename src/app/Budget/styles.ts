@@ -5,11 +5,13 @@ import { colors } from '@/themes'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.GRAY_100,
+    backgroundColor: colors.WHITE,
   },
   header: {
     paddingHorizontal: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.GRAY_200
   },
   content: {
     paddingHorizontal: 20,

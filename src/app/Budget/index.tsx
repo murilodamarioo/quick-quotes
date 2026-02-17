@@ -74,6 +74,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
           </BudgetContent>
 
           <BudgetContent icon='credit-card' title='Investimento'>
+            
           </BudgetContent>
         </View>
       </View>

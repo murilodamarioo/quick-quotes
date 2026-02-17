@@ -5,9 +5,10 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingTop: 64,
+    paddingBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   leftButton: {
     flexDirection: 'row',
