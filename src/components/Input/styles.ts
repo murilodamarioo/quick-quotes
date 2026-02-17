@@ -18,6 +18,5 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 14 * 1.4,
     color: colors.GRAY_500,
-    paddingVertical: 16
   }
 })
