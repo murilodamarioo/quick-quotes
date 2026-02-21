@@ -19,14 +19,14 @@ export function TagOption({ selected, onChange }: Props) {
         onPress={() => onChange(TagStatus.DRAW)}
       />
       <Option
-        isSelected={selected === TagStatus.SENT}
-        status={TagStatus.SENT}
-        onPress={() => onChange(TagStatus.SENT)}
-      />
-      <Option
         isSelected={selected === TagStatus.APPROVED}
         status={TagStatus.APPROVED}
         onPress={() => onChange(TagStatus.APPROVED)}
+      />
+      <Option
+        isSelected={selected === TagStatus.SENT}
+        status={TagStatus.SENT}
+        onPress={() => onChange(TagStatus.SENT)}
       />
       <Option
         isSelected={selected === TagStatus.REJECTED}
