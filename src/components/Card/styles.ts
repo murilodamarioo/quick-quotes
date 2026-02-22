@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
     gap: 12,
     borderRadius: 10,
     backgroundColor: colors.GRAY_100,
+    borderWidth: 1,
+    borderColor: colors.GRAY_200,
     padding: 16,
   },
   titleContainer: {

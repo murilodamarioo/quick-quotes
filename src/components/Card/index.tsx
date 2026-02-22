@@ -22,7 +22,7 @@ export function Card({ title, client, status, price, ...rest }: Props) {
       </View>
 
       <View style={styles.priceContainer}>
-        <Tag status={status} style={{ marginTop: -8, marginRight: -8, alignSelf: "flex-end" }} />
+        <Tag status={status} />
         <CurrencyValue value={price} size='large' strong />
       </View>
 
