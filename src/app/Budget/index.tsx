@@ -29,7 +29,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.WHITE }}>
+    <SafeAreaView style={{ backgroundColor: colors.WHITE }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.header}>
