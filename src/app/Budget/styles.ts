@@ -23,5 +23,13 @@ export const styles = StyleSheet.create({
   },
   items: {
     gap: 20
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 12,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: colors.GRAY_200
   }
 })
