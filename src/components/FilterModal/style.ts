@@ -4,6 +4,7 @@ import { colors, fontFamily } from '@/themes'
 
 export const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.WHITE,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     position: 'absolute',
@@ -14,7 +15,8 @@ export const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.4)', // Semitransparente, ajuste o alpha conforme desejar
   },
   header: {
     flexDirection: 'row',

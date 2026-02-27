@@ -12,6 +12,7 @@ import { FilterModal } from '@/components/FilterModal'
 import { StackRoutesProps } from '@/routes/StackRoutes'
 
 import { TagStatus } from '@/types/TagStatus'
+import { Ordering } from '@/types/Ordering'
 import { colors } from '@/themes'
 
 const data = [
@@ -83,7 +84,7 @@ const data = [
 export function Home({ navigation }: StackRoutesProps<'home'>) {
   const [isFilterVisible, setIsFilterVisible] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState<TagStatus[]>([])
-
+  const [ordering, setOrdering] = useState<Ordering>(Ordering.RECENT)
 
   function toggleStatus(status: TagStatus) {
     setSelectedStatus(prev =>
@@ -95,6 +96,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
 
   function resetFilters() {
     setSelectedStatus([])
+    setOrdering(Ordering.RECENT)
   }
 
   return (
@@ -135,6 +137,8 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
       <FilterModal
         visible={isFilterVisible}
         selectedStatus={selectedStatus}
+        ordering={ordering}
+        setOrdering={setOrdering}
         toggleStatus={toggleStatus}
         onCloseModal={() => setIsFilterVisible(false)}
         onResetFilters={resetFilters}

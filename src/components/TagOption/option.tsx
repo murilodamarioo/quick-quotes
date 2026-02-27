@@ -22,7 +22,7 @@ export function Option({
       <MaterialIcons
         name={isSelected ? 'radio-button-checked' : 'radio-button-unchecked'}
         size={20}
-        color={isSelected ? colors.PURPULE_BASE : colors.GRAY_400}
+        color={isSelected ? colors.PURPLE_BASE : colors.GRAY_400}
       />
       <Tag status={status} />
     </Pressable>
