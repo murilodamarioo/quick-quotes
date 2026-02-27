@@ -20,7 +20,7 @@ export function BudgetContent({ icon, title, children, style }: Props) {
         <AntDesign
           size={16}
           name={icon}
-          color={colors.PURPULE_BASE}
+          color={colors.PURPLE_BASE}
         />
         <Text style={styles.title}>{title}</Text>
       </View>

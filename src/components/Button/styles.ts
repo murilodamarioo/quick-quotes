@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.PURPULE_BASE,
+    backgroundColor: colors.PURPLE_BASE,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,

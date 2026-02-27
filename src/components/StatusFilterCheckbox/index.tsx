@@ -20,7 +20,7 @@ export function StatusFilterCheckbox({ checked, status, onToggle, ...rest }: Pro
       <MaterialIcons
         name={checked ? 'check-box' : 'check-box-outline-blank'}
         size={24}
-        color={checked ? colors.PURPULE_BASE : colors.GRAY_400}
+        color={checked ? colors.PURPLE_BASE : colors.GRAY_400}
       />
       <Tag status={status} />
     </Pressable>

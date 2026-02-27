@@ -76,7 +76,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
                     borderWidth: 1,
                     borderColor: colors.GRAY_300
                   }}
-                  textStyle={{ color: colors.PURPULE_BASE }}
+                  textStyle={{ color: colors.PURPLE_BASE }}
                 />
               </View>
             </BudgetContent>
@@ -98,14 +98,14 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
                 borderWidth: 1,
                 borderColor: colors.GRAY_300
               }}
-              textStyle={{ color: colors.PURPULE_BASE }}
+              textStyle={{ color: colors.PURPLE_BASE }}
             />
 
             <Button
               title='Salvar'
               name='check'
               onPress={() => navigation.navigate('home')}
-              viewStyle={{ backgroundColor: colors.PURPULE_BASE }}
+              viewStyle={{ backgroundColor: colors.PURPLE_BASE }}
               textStyle={{ color: colors.WHITE }}
             />
           </View>

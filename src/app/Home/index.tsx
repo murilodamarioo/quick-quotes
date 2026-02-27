@@ -108,7 +108,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
           name='add'
           title='Novo'
           onPress={() => navigation.navigate('new_budget')}
-          viewStyle={{ backgroundColor: colors.PURPULE_BASE }}
+          viewStyle={{ backgroundColor: colors.PURPLE_BASE }}
           textStyle={{ color: colors.WHITE }}
         />
       </View>

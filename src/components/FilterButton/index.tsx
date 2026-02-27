@@ -15,7 +15,7 @@ export function FilterButton({ icon, ...rest }: Props) {
       <MaterialIcons
         name={icon}
         size={24}
-        color={colors.PURPULE_BASE}
+        color={colors.PURPLE_BASE}
       />
     </TouchableOpacity>
   )

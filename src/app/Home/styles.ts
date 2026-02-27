@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fontFamily.bold,
-    color: colors.PURPULE_BASE,
+    color: colors.PURPLE_BASE,
     lineHeight: 14 * 1.4,
     fontSize: 18
   },

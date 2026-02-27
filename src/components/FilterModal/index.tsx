@@ -69,7 +69,7 @@ export function FilterModal({
               borderWidth: 1,
               borderColor: colors.GRAY_300
             }}
-            textStyle={{ color: colors.PURPULE_BASE }}
+            textStyle={{ color: colors.PURPLE_BASE }}
           />
           <Button
             title='Aplicar'
@@ -78,7 +78,7 @@ export function FilterModal({
               console.log('Aplicar filtros')
               onCloseModal()
             }}
-            viewStyle={{ backgroundColor: colors.PURPULE_BASE }}
+            viewStyle={{ backgroundColor: colors.PURPLE_BASE }}
             textStyle={{ color: colors.WHITE }}
           />
         </View>

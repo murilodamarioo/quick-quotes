@@ -1,7 +1,7 @@
 export const colors = {
   // Main
   PURPULE_LIGHT: '#DFDAF2',
-  PURPULE_BASE: '#6A46EB',
+  PURPLE_BASE: '#6A46EB',
   WHITE: '#FFFFFF',
 
   // Base

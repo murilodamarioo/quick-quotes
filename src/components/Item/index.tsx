@@ -32,7 +32,7 @@ export function Item({ title, description, price, quantity, ...rest }: Props) {
         <MaterialIcons
           name='edit'
           size={20}
-          color={colors.PURPULE_BASE}
+          color={colors.PURPLE_BASE}
         />
       </TouchableOpacity>
 
