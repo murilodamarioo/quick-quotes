@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.4)', // Semitransparente, ajuste o alpha conforme desejar
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
   header: {
     flexDirection: 'row',
