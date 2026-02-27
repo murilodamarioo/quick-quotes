@@ -86,6 +86,11 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
   const [selectedStatus, setSelectedStatus] = useState<TagStatus[]>([])
   const [ordering, setOrdering] = useState<Ordering>(Ordering.RECENT)
 
+  function closeModal() {
+    setIsFilterVisible(false)
+    resetFilters()
+  }
+
   function toggleStatus(status: TagStatus) {
     setSelectedStatus(prev =>
       prev.includes(status)
@@ -140,7 +145,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         ordering={ordering}
         setOrdering={setOrdering}
         toggleStatus={toggleStatus}
-        onCloseModal={() => setIsFilterVisible(false)}
+        onCloseModal={() => closeModal()}
         onResetFilters={resetFilters}
       />
     </View>
