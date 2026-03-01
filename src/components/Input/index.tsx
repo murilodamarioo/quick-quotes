@@ -7,7 +7,7 @@ import { colors } from '@/themes'
 
 type Props = TextInputProps & {
   icon?: keyof typeof MaterialIcons.glyphMap
-  placeholder: string
+  placeholder?: string
 }
 
 export function Input({ icon, placeholder, ...rest }: Props) {
