@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
     backgroundColor: colors.GRAY_100,
     borderRadius: 999,
     borderWidth: 1,
@@ -17,7 +16,16 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 14 * 1.4,
     color: colors.GRAY_700,
-    marginHorizontal: 16,
-    marginVertical: 12
+    marginVertical: 12,
+    marginRight: 16
+  },
+  icon: {
+    marginLeft: 16
+  },
+  withIcon: {
+    marginLeft: 8,
+  },
+  noIcon: {
+    marginLeft: 16
   }
 })

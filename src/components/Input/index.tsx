@@ -14,15 +14,13 @@ export function Input({ icon, placeholder, ...rest }: Props) {
   return (
     <View style={styles.container}>
       {icon && (
-        <MaterialIcons
-          name={icon}
-          size={24}
-          color={colors.GRAY_500}
-        />
+        <View style={styles.icon}>
+          <MaterialIcons name={icon} size={24} color={colors.GRAY_500} />
+        </View>
       )}
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, icon ? styles.withIcon : styles.noIcon]}
         placeholder={placeholder}
         {...rest}
       />
