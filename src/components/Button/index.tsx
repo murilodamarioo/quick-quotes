@@ -6,7 +6,7 @@ import { styles } from './styles'
 
 type Props = TouchableOpacityProps & {
   name?: keyof typeof MaterialIcons.glyphMap
-  title: string
+  title?: string
   viewStyle?: ViewStyle
   textStyle?: TextStyle
 }
@@ -17,9 +17,12 @@ export function Button({ name, title, viewStyle, textStyle, ...rest }: Props) {
       {name &&
         <MaterialIcons name={name} size={24} style={textStyle} />
       }
-      <Text style={[styles.title, textStyle]}>
-        {title}
-      </Text>
+      {
+        title &&
+        <Text style={[styles.title, textStyle]}>
+          {title}
+        </Text>
+      }
     </TouchableOpacity>
   )
 }

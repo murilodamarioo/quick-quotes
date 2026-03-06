@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { View, ScrollView } from 'react-native'
 
+
 import { styles } from './styles'
 
 import { Item } from '@/components/Item'
@@ -10,6 +11,9 @@ import { TagOption } from '@/components/TagOption'
 import { PageHeader } from '@/components/PageHeader'
 import { Investment } from '@/components/Investment'
 import { BudgetContent } from '@/components/BudgetContent'
+import { ServiceModal } from '@/components/ServiceModal'
+
+import { ServiceProps } from '@/components/ServiceModal'
 
 import { StackRoutesProps } from '@/routes/StackRoutes'
 
@@ -28,6 +32,33 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
     discountPercentage
   }
 
+  const [services, setServices] = useState<ServiceProps[]>([])
+  const [isServiceModalVisible, setIsServiceModalVisible] = useState(false)
+
+  const initialFormValue = {
+    id: undefined,
+    title: '',
+    description: '',
+    price: 0,
+    quantity: 1,
+  }
+
+  const [serviceForm, setServiceForm] = useState<ServiceProps>(initialFormValue)
+
+  function handleOpenServiceModal() {
+    setServiceForm(initialFormValue)
+    setIsServiceModalVisible(true)
+  }
+
+  function handleSaveService() {
+    if (!serviceForm.title.trim()) return
+
+    const newService = { ...serviceForm, id: String(new Date().getTime()) }
+
+    setServices(prev => [...prev, newService])
+    setIsServiceModalVisible(false)
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: colors.WHITE }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -35,7 +66,6 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
           <View style={styles.header}>
             <PageHeader
               title='Orçamento'
-              tagStatus={TagStatus.SENT}
               onPress={() => navigation.goBack()}
             />
           </View>
@@ -55,22 +85,19 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
 
             <BudgetContent style={{ paddingHorizontal: 20 }} icon='file-text' title='Serviços inclusos'>
               <View style={styles.items}>
-                <Item
-                  title='Design de interfaces'
-                  description='Criação de wireframes e protótipos de alta fidelidade'
-                  quantity={1}
-                  price={100}
-                />
-                <Item
-                  title='Design de interfaces'
-                  description='Criação de wireframes e protótipos de alta fidelidade'
-                  quantity={1}
-                  price={100}
-                />
+                {services.map((service, idx) => (
+                  <Item
+                    key={idx}
+                    title={service.title}
+                    description={service.description}
+                    quantity={service.quantity}
+                    price={service.price}
+                  />
+                ))}
                 <Button
                   name='add'
                   title='Adicionar serviço'
-                  onPress={() => console.log('Adicionar serviço')}
+                  onPress={handleOpenServiceModal}
                   viewStyle={{
                     backgroundColor: colors.GRAY_100,
                     borderWidth: 1,
@@ -109,9 +136,16 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
               textStyle={{ color: colors.WHITE }}
             />
           </View>
+
+          <ServiceModal
+            data={serviceForm}
+            visible={isServiceModalVisible}
+            onCloseModal={() => setIsServiceModalVisible(false)}
+            onChange={setServiceForm}
+            onSave={handleSaveService}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
-
   )
 }
