@@ -12,5 +12,9 @@ export const styles = StyleSheet.create({
     height: 48,
     alignItems: 'center',
     paddingHorizontal: 16
+  },
+  input: {
+    minWidth: 24,
+    textAlign: 'center'
   }
 })
