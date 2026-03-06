@@ -1,14 +1,17 @@
-import { TextInput, View } from 'react-native'
+import { TextInput, TextInputProps, View } from 'react-native'
 
 import { styles } from './styles'
 
-export function Textarea() {
+type Props = TextInputProps & {}
+
+export function Textarea({ ...rest }: Props) {
   return (
     <View style={styles.container}>
       <TextInput
         multiline
         numberOfLines={4}
         style={styles.input}
+        {...rest}
       />
     </View>
   )
