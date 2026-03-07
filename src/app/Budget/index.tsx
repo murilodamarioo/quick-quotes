@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { View, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -22,17 +22,26 @@ import { TagStatus } from '@/types/TagStatus'
 import { colors } from '@/themes'
 
 export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
+  const [title, setTitle] = useState('')
+  const [client, setClient] = useState('')
   const [tagType, setTagType] = useState(TagStatus.DRAW)
+  const [services, setServices] = useState<ServiceProps[]>([])
   const [discountPercentage, setDiscountPercentage] = useState(0)
+  const [isServiceModalVisible, setIsServiceModalVisible] = useState(false)
 
-  const data = {
-    subtotal: 3847.5,
-    quantity: 10,
+  const subtotal = services.map(service => service.price).reduce((acc, item) => {
+    return acc + item
+  }, 0)
+
+  const totalQuantity = services.reduce((acc, item) => {
+    return acc + item.quantity
+  }, 0)
+
+  const investmentData = {
+    subtotal,
+    quantity: totalQuantity,
     discountPercentage
   }
-
-  const [services, setServices] = useState<ServiceProps[]>([])
-  const [isServiceModalVisible, setIsServiceModalVisible] = useState(false)
 
   const initialFormValue = {
     title: '',
@@ -67,7 +76,6 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
     setIsServiceModalVisible(false)
   }
 
-
   function handleUpdateService(service: ServiceProps) {
     setIsServiceModalVisible(true)
     setServiceForm(service)
@@ -77,6 +85,28 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
     setServices(prev => prev.filter(item => item.id !== serviceForm.id))
 
     setIsServiceModalVisible(false)
+  }
+
+  function handleSaveBudget() {
+    const discountAmount = subtotal * (discountPercentage / 100)
+
+    const total = subtotal - discountAmount
+
+    const budgetData = {
+      title,
+      client,
+      status: tagType,
+      services,
+      discountPercentage,
+      total,
+      totalQuantity,
+      discountAmount,
+      subtotal,
+    }
+
+    console.log(budgetData)
+
+    navigation.navigate('home')
   }
 
   return (
@@ -93,8 +123,16 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
           <View style={styles.content}>
             <BudgetContent icon='home' title='Informações gerais'>
               <View style={styles.form}>
-                <Input placeholder='Título' />
-                <Input placeholder='Cliente' />
+                <Input
+                  placeholder='Título'
+                  value={title}
+                  onChangeText={setTitle}
+                />
+                <Input
+                  placeholder='Cliente'
+                  value={client}
+                  onChangeText={setClient}
+                />
               </View>
             </BudgetContent>
 
@@ -132,7 +170,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
             <BudgetContent icon='credit-card' title='Investimento'>
               <Investment
                 onDiscountChange={setDiscountPercentage}
-                data={data}
+                data={investmentData}
               />
             </BudgetContent>
           </View>
@@ -152,7 +190,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
             <Button
               title='Salvar'
               name='check'
-              onPress={() => navigation.navigate('home')}
+              onPress={handleSaveBudget}
               viewStyle={{ backgroundColor: colors.PURPLE_BASE }}
               textStyle={{ color: colors.WHITE }}
             />
