@@ -8,15 +8,13 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   header: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.GRAY_200
   },
   content: {
-    paddingHorizontal: 20,
+    padding: 20,
     gap: 20,
-    marginBottom: 20
   },
   form: {
     gap: 12
