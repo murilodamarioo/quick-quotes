@@ -43,7 +43,7 @@ export function ServiceModal({
   }
 
   return (
-    <Modal visible={visible} transparent animationType='slide' onRequestClose={onCloseModal} {...rest}>
+    <Modal visible={visible} transparent animationType='fade' onRequestClose={onCloseModal} {...rest}>
       <View style={styles.overlay}>
         <View style={styles.container}>
           <View style={styles.header}>

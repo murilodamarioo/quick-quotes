@@ -38,7 +38,7 @@ export function FilterModal({
     <Modal
       visible={visible}
       onRequestClose={onCloseModal}
-      animationType='slide'
+      animationType='fade'
       transparent
       {...rest}
     >
