@@ -113,12 +113,10 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
     <SafeAreaView style={{ backgroundColor: colors.WHITE }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <View style={styles.header}>
-            <PageHeader
-              title='Orçamento'
-              onPress={() => navigation.goBack()}
-            />
-          </View>
+          <PageHeader
+            title='Orçamento'
+            onPress={() => navigation.goBack()}
+          />
 
           <View style={styles.content}>
             <BudgetContent icon='home' title='Informações gerais'>

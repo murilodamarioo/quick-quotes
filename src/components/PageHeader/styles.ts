@@ -4,10 +4,12 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.GRAY_200
   },
   leftButton: {
     flexDirection: 'row',

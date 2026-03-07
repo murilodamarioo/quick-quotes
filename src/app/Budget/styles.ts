@@ -7,11 +7,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.WHITE,
   },
-  header: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.GRAY_200
-  },
   content: {
     padding: 20,
     gap: 20,
