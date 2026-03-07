@@ -24,6 +24,7 @@ type Props = ModalProps & {
   onCloseModal: () => void
   onChange: (data: ServiceProps) => void
   onSave: () => void
+  onDelete: () => void
 }
 
 export function ServiceModal({
@@ -32,6 +33,7 @@ export function ServiceModal({
   onCloseModal,
   onChange,
   onSave,
+  onDelete,
   ...rest
 }: Props) {
 
@@ -77,7 +79,7 @@ export function ServiceModal({
           <View style={styles.footer}>
             <Button
               name='delete'
-              onPress={onCloseModal}
+              onPress={onDelete}
               viewStyle={{ backgroundColor: colors.GRAY_100, borderWidth: 1, borderColor: colors.GRAY_300 }}
               textStyle={{ color: colors.DANGER_BASE }}
             />

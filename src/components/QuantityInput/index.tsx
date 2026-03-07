@@ -9,14 +9,14 @@ type Props = TextInputProps & {
   onChangeText: (value: string) => void
 }
 
-export function QuantityInput({ value = '0', onChangeText, ...rest }: Props) {
+export function QuantityInput({ value, onChangeText, ...rest }: Props) {
   const handleIncrement = () => {
     const newValue = String(Number(value || '0') + 1)
     onChangeText(newValue)
   }
 
   const handleDecrement = () => {
-    const newValue = Math.max(Number(value || '0') - 1, 0)
+    const newValue = Math.max(Number(value || '0') - 1, 1)
     onChangeText(String(newValue))
   }
 

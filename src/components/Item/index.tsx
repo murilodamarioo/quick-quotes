@@ -1,9 +1,12 @@
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native'
-import { CurrencyValue } from '../CurrencyValue'
+
 import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '@/themes'
+
+import { CurrencyValue } from '../CurrencyValue'
+
 import { styles } from './styles'
-import { Button } from '../Button'
+
+import { colors } from '@/themes'
 
 type Props = TouchableOpacityProps & {
   title: string

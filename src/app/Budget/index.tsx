@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { View, ScrollView } from 'react-native'
-
+import { View, ScrollView, Alert } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { styles } from './styles'
 
@@ -20,7 +20,6 @@ import { StackRoutesProps } from '@/routes/StackRoutes'
 import { TagStatus } from '@/types/TagStatus'
 
 import { colors } from '@/themes'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
   const [tagType, setTagType] = useState(TagStatus.DRAW)
@@ -36,7 +35,6 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
   const [isServiceModalVisible, setIsServiceModalVisible] = useState(false)
 
   const initialFormValue = {
-    id: undefined,
     title: '',
     description: '',
     price: 0,
@@ -45,17 +43,39 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
 
   const [serviceForm, setServiceForm] = useState<ServiceProps>(initialFormValue)
 
-  function handleOpenServiceModal() {
+  function handleCreateNewService() {
     setServiceForm(initialFormValue)
     setIsServiceModalVisible(true)
   }
 
   function handleSaveService() {
-    if (!serviceForm.title.trim()) return
+    if (!serviceForm.title.trim()) {
+      return Alert.alert('Atenção', 'O título do serviço é obrigatório.')
+    }
 
-    const newService = { ...serviceForm, id: String(new Date().getTime()) }
+    setServices(prev => {
+      const isEditing = prev.some(item => item.id === serviceForm.id)
 
-    setServices(prev => [...prev, newService])
+      if (isEditing) {
+        return prev.map(item => item.id === serviceForm.id ? serviceForm : item)
+      }
+
+      const newService = { ...serviceForm, id: String(new Date().getTime()) }
+      return [...prev, newService]
+    })
+
+    setIsServiceModalVisible(false)
+  }
+
+
+  function handleUpdateService(service: ServiceProps) {
+    setIsServiceModalVisible(true)
+    setServiceForm(service)
+  }
+
+  function handleDeleteService() {
+    setServices(prev => prev.filter(item => item.id !== serviceForm.id))
+
     setIsServiceModalVisible(false)
   }
 
@@ -85,19 +105,20 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
 
             <BudgetContent style={{ paddingHorizontal: 20 }} icon='file-text' title='Serviços inclusos'>
               <View style={styles.items}>
-                {services.map((service, idx) => (
+                {services.map((service) => (
                   <Item
-                    key={idx}
+                    key={service.id}
                     title={service.title}
                     description={service.description}
                     quantity={service.quantity}
                     price={service.price}
+                    onPress={() => handleUpdateService(service)}
                   />
                 ))}
                 <Button
                   name='add'
                   title='Adicionar serviço'
-                  onPress={handleOpenServiceModal}
+                  onPress={handleCreateNewService}
                   viewStyle={{
                     backgroundColor: colors.GRAY_100,
                     borderWidth: 1,
@@ -143,6 +164,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
             onCloseModal={() => setIsServiceModalVisible(false)}
             onChange={setServiceForm}
             onSave={handleSaveService}
+            onDelete={handleDeleteService}
           />
         </View>
       </ScrollView>
