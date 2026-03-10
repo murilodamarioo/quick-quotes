@@ -8,7 +8,7 @@ import { Details } from '@/app/Details'
 
 export type StackRoutesList = {
   home: undefined
-  new_budget: undefined
+  budget: undefined | { id: string }
   details: undefined | { id: string }
 }
 
@@ -24,7 +24,7 @@ export function StackRoutes() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="home" component={Home} />
-      <Stack.Screen name="new_budget" component={Budget} />
+      <Stack.Screen name="budget" component={Budget} />
       <Stack.Screen name="details" component={Details} />
     </Stack.Navigator>
   )

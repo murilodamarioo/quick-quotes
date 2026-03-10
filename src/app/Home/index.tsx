@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Text, View, FlatList } from 'react-native'
 
 import { styles } from './styles'
@@ -14,77 +14,14 @@ import { StackRoutesProps } from '@/routes/StackRoutes'
 import { TagStatus } from '@/types/TagStatus'
 import { Ordering } from '@/types/Ordering'
 import { colors } from '@/themes'
+import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
 
-const data = [
-  {
-    id: 1,
-    title: 'Desenvolvimento de aplicativo de loja online',
-    client: 'John Doe',
-    status: TagStatus.SENT,
-    price: 3500
-  },
-  {
-    id: 2,
-    title: 'Desenvolvimento de aplicativo de restaurante',
-    client: 'John Doe',
-    status: TagStatus.APPROVED,
-    price: 1500
-  },
-  {
-    id: 3,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 4,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 5,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 6,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 7,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 8,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-  {
-    id: 9,
-    title: 'Desenvolvimento de aplicativo',
-    client: 'John Doe',
-    status: TagStatus.REJECTED,
-    price: 2000
-  },
-]
 
 export function Home({ navigation }: StackRoutesProps<'home'>) {
   const [isFilterVisible, setIsFilterVisible] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState<TagStatus[]>([])
   const [ordering, setOrdering] = useState<Ordering>(Ordering.RECENT)
+  const [budgets, setBudgets] = useState<BudgetStorage[]>([])
 
   function closeModal() {
     setIsFilterVisible(false)
@@ -104,6 +41,20 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
     setOrdering(Ordering.RECENT)
   }
 
+  async function fetchData() {
+    const response = await budgetsStorage.get()
+
+    setBudgets(response)
+  }
+
+  function fetchDataWithFilter() {
+
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -114,7 +65,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         <Button
           name='add'
           title='Novo'
-          onPress={() => navigation.navigate('new_budget')}
+          onPress={() => navigation.navigate('budget')}
           viewStyle={{ backgroundColor: colors.PURPLE_BASE }}
           textStyle={{ color: colors.WHITE }}
         />
@@ -126,7 +77,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         <FilterButton icon='tune' onPress={() => setIsFilterVisible(true)} />
       </View>
       <FlatList
-        data={data}
+        data={budgets}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
         ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
@@ -135,7 +86,8 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
             title={item.title}
             client={item.client}
             status={item.status}
-            price={item.price}
+            price={item.services.reduce((acc, item) => acc + item.price, 0)}
+            onPress={() => navigation.navigate('details', { id: item.id })}
           />
         )}
       />
@@ -147,6 +99,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         toggleStatus={toggleStatus}
         onCloseModal={() => closeModal()}
         onResetFilters={resetFilters}
+        onApplyFilters={fetchDataWithFilter}
       />
     </View>
   )

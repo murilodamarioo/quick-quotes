@@ -10,7 +10,7 @@ import { colors } from '@/themes'
 export type InvestmentsProps = {
   subtotal: number
   quantity: number
-  discountPercentage: number
+  discountPct: number
 }
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
 
 export function Investment({ data, onDiscountChange }: Props) {
 
-  const discountAmount = data.subtotal * (data.discountPercentage / 100)
+  const discountAmount = data.subtotal * (data.discountPct / 100)
   const total = data.subtotal - discountAmount
 
   const handleDiscountChange = (text: string) => {
@@ -45,13 +45,13 @@ export function Investment({ data, onDiscountChange }: Props) {
           <Text style={styles.label}>Desconto</Text>
           <DiscountInput
             placeholder='1'
-            value={data.discountPercentage.toString()}
+            value={data.discountPct.toString()}
             onChangeText={handleDiscountChange}
             keyboardType="numeric"
           />
         </View>
 
-        {data.discountPercentage > 0 &&
+        {data.discountPct > 0 &&
           <View style={styles.discountValue}>
             <Text style={styles.minus}>-</Text>
             <CurrencyValue
@@ -66,7 +66,7 @@ export function Investment({ data, onDiscountChange }: Props) {
       <View style={styles.total}>
         <Text style={styles.labelTotal}>Valor total</Text>
         <View>
-          {data.discountPercentage > 0 &&
+          {data.discountPct > 0 &&
             <CurrencyValue
               textStyle={{ textDecorationLine: 'line-through', color: colors.GRAY_600 }}
               value={data.subtotal}

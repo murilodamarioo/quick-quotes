@@ -1,4 +1,4 @@
-import { use, useState } from 'react'
+import { useState } from 'react'
 import { View, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -12,21 +12,24 @@ import { PageHeader } from '@/components/PageHeader'
 import { Investment } from '@/components/Investment'
 import { BudgetContent } from '@/components/BudgetContent'
 import { ServiceModal } from '@/components/ServiceModal'
-
 import { ServiceProps } from '@/components/ServiceModal'
+
+import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
 
 import { StackRoutesProps } from '@/routes/StackRoutes'
 
 import { TagStatus } from '@/types/TagStatus'
-
 import { colors } from '@/themes'
 
-export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
+
+export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
+  const budgetId = route.params?.id
+
   const [title, setTitle] = useState('')
   const [client, setClient] = useState('')
   const [tagType, setTagType] = useState(TagStatus.DRAW)
   const [services, setServices] = useState<ServiceProps[]>([])
-  const [discountPercentage, setDiscountPercentage] = useState(0)
+  const [discountPct, setDiscountPct] = useState(0)
   const [isServiceModalVisible, setIsServiceModalVisible] = useState(false)
 
   const subtotal = services.map(service => service.price).reduce((acc, item) => {
@@ -40,7 +43,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
   const investmentData = {
     subtotal,
     quantity: totalQuantity,
-    discountPercentage
+    discountPct
   }
 
   const initialFormValue = {
@@ -52,9 +55,20 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
 
   const [serviceForm, setServiceForm] = useState<ServiceProps>(initialFormValue)
 
-  function handleCreateNewService() {
+  function addNewService() {
     setServiceForm(initialFormValue)
     setIsServiceModalVisible(true)
+  }
+
+  function updateService(service: ServiceProps) {
+    setIsServiceModalVisible(true)
+    setServiceForm(service)
+  }
+
+  function handleRemoveService() {
+    setServices(prev => prev.filter(service => service.id !== serviceForm.id))
+
+    setIsServiceModalVisible(false)
   }
 
   function handleSaveService() {
@@ -63,50 +77,71 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
     }
 
     setServices(prev => {
-      const isEditing = prev.some(item => item.id === serviceForm.id)
+      const isEditing = prev.some(service => service.id === serviceForm.id)
 
       if (isEditing) {
-        return prev.map(item => item.id === serviceForm.id ? serviceForm : item)
+        return prev.map(service => service.id === serviceForm.id ? serviceForm : service)
       }
 
-      const newService = { ...serviceForm, id: String(new Date().getTime()) }
+      const newService = { id: Math.random().toString(36).slice(2), ...serviceForm }
+
       return [...prev, newService]
     })
 
     setIsServiceModalVisible(false)
   }
 
-  function handleUpdateService(service: ServiceProps) {
-    setIsServiceModalVisible(true)
-    setServiceForm(service)
+  async function handleSaveBudget() {
+    if (!title.trim()) {
+      return Alert.alert('Atenção', 'O título do orçamento é obrigatório.')
+    }
+
+    if (!client.trim()) {
+      return Alert.alert('Atenção', 'O nome do cliente é obrigatório.')
+    }
+
+    if (budgetId) {
+      await update()
+    } else {
+      await create()
+    }
+
+    navigation.goBack()
   }
 
-  function handleDeleteService() {
-    setServices(prev => prev.filter(item => item.id !== serviceForm.id))
-
-    setIsServiceModalVisible(false)
-  }
-
-  function handleSaveBudget() {
-    const discountAmount = subtotal * (discountPercentage / 100)
-
-    const total = subtotal - discountAmount
-
-    const budgetData = {
+  async function create() {
+    const newBudget: BudgetStorage = {
+      id: Math.random().toString(36).slice(2),
       title,
       client,
       status: tagType,
-      services,
-      discountPercentage,
-      total,
-      totalQuantity,
-      discountAmount,
-      subtotal,
+      discountPct,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      services
     }
 
-    console.log(budgetData)
+    await budgetsStorage.add(newBudget)
+  }
 
-    navigation.navigate('home')
+  async function update() {
+    const budgets = await budgetsStorage.get()
+
+    const updatedBudgets = budgets.map(budget =>
+      budget.id === budgetId
+        ? {
+          ...budget,
+          title,
+          client,
+          status: tagType,
+          discountPct,
+          services,
+          updatedAt: new Date(),
+        }
+        : budget
+    )
+
+    await budgetsStorage.save(updatedBudgets)
   }
 
   return (
@@ -148,13 +183,13 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
                     description={service.description}
                     quantity={service.quantity}
                     price={service.price}
-                    onPress={() => handleUpdateService(service)}
+                    onPress={() => updateService(service)}
                   />
                 ))}
                 <Button
                   name='add'
                   title='Adicionar serviço'
-                  onPress={handleCreateNewService}
+                  onPress={addNewService}
                   viewStyle={{
                     backgroundColor: colors.GRAY_100,
                     borderWidth: 1,
@@ -167,7 +202,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
 
             <BudgetContent icon='credit-card' title='Investimento'>
               <Investment
-                onDiscountChange={setDiscountPercentage}
+                onDiscountChange={setDiscountPct}
                 data={investmentData}
               />
             </BudgetContent>
@@ -200,7 +235,7 @@ export function Budget({ navigation }: StackRoutesProps<'new_budget'>) {
             onCloseModal={() => setIsServiceModalVisible(false)}
             onChange={setServiceForm}
             onSave={handleSaveService}
-            onDelete={handleDeleteService}
+            onDelete={handleRemoveService}
           />
         </View>
       </ScrollView>
