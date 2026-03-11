@@ -27,6 +27,14 @@ async function get(): Promise<BudgetStorage[]> {
   }
 }
 
+async function getById(id: string): Promise<BudgetStorage | null> {
+  const budgets = await get()
+
+  const budget = budgets.find(budgets => budgets.id === id)
+
+  return budget ? budget : null
+}
+
 async function save(budgets: BudgetStorage[]): Promise<void> {
   try {
     await AsyncStorage.setItem(BUDGETS_STORAGE_KEY, JSON.stringify(budgets))
@@ -46,6 +54,7 @@ async function add(newBudget: BudgetStorage): Promise<BudgetStorage[]> {
 
 export const budgetsStorage = {
   get,
+  getById,
   save,
   add
 }
