@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -53,63 +53,67 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
     quantity: 1,
   }
 
-  const [serviceForm, setServiceForm] = useState<ServiceProps>(initialFormValue)
+  const [dataService, setDataService] = useState<ServiceProps>(initialFormValue)
 
   function addNewService() {
-    setServiceForm(initialFormValue)
+    setDataService(initialFormValue)
     setIsServiceModalVisible(true)
   }
 
   function updateService(service: ServiceProps) {
     setIsServiceModalVisible(true)
-    setServiceForm(service)
-  }
-
-  function handleRemoveService() {
-    setServices(prev => prev.filter(service => service.id !== serviceForm.id))
-
-    setIsServiceModalVisible(false)
+    setDataService(service)
   }
 
   function handleSaveService() {
-    if (!serviceForm.title.trim()) {
+    if (!dataService.title.trim()) {
       return Alert.alert('Atenção', 'O título do serviço é obrigatório.')
     }
 
     setServices(prev => {
-      const isEditing = prev.some(service => service.id === serviceForm.id)
+      const isEditing = prev.some(service => service.id === dataService.id)
 
       if (isEditing) {
-        return prev.map(service => service.id === serviceForm.id ? serviceForm : service)
+        return prev.map(service => service.id === dataService.id ? dataService : service)
       }
 
-      const newService = { id: Math.random().toString(36).slice(2), ...serviceForm }
+      const newService = { id: Math.random().toString(36).slice(2), ...dataService }
+
+      setIsServiceModalVisible(false)
 
       return [...prev, newService]
     })
+  }
+
+  function handleRemoveService() {
+    Alert.alert('Atenção', 'Deseja realmente remover esse serviço?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: removeService }
+    ])
+  }
+
+  function removeService() {
+    const updatedServices = services.filter(service => service.id !== dataService.id)
+    setServices(updatedServices)
 
     setIsServiceModalVisible(false)
   }
 
   async function handleSaveBudget() {
     if (!title.trim()) {
-      return Alert.alert('Atenção', 'O título do orçamento é obrigatório.')
+      return Alert.alert('Atenção', 'O título é obrigatório.')
     }
 
     if (!client.trim()) {
-      return Alert.alert('Atenção', 'O nome do cliente é obrigatório.')
+      return Alert.alert('Atenão', 'O nome do cliente é obrigatório.')
     }
 
-    if (budgetId) {
-      await update()
-    } else {
-      await create()
-    }
+    budgetId ? await updateBudget() : await createBudget()
 
-    navigation.goBack()
+    navigation.navigate('home')
   }
 
-  async function create() {
+  async function createBudget() {
     const newBudget: BudgetStorage = {
       id: Math.random().toString(36).slice(2),
       title,
@@ -124,7 +128,7 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
     await budgetsStorage.add(newBudget)
   }
 
-  async function update() {
+  async function updateBudget() {
     const budgets = await budgetsStorage.get()
 
     const updatedBudgets = budgets.map(budget =>
@@ -135,14 +139,49 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
           client,
           status: tagType,
           discountPct,
-          services,
           updatedAt: new Date(),
+          services
         }
         : budget
     )
 
     await budgetsStorage.save(updatedBudgets)
   }
+
+  async function loadBudgetData() {
+    if (!budgetId) {
+      setTitle('')
+      setClient('')
+      setTagType(TagStatus.DRAW)
+      setDiscountPct(0)
+      setServices([])
+
+      return
+    }
+
+    try {
+      const budget = await budgetsStorage.getById(budgetId)
+
+      if (budget) {
+        setTitle(budget.title)
+        setClient(budget.client)
+        setTagType(budget.status)
+        setDiscountPct(budget.discountPct) // Note: Corrigi de discountPct para budget.discountPct
+        setServices(budget.services)
+      } else {
+        Alert.alert('Erro', 'Orçamento não encontrado.')
+        navigation.navigate('home')
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar os dados.')
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    loadBudgetData()
+  }, [budgetId])
+
 
   return (
     <SafeAreaView style={{ backgroundColor: colors.WHITE }}>
@@ -230,10 +269,10 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
           </View>
 
           <ServiceModal
-            data={serviceForm}
+            data={dataService}
             visible={isServiceModalVisible}
             onCloseModal={() => setIsServiceModalVisible(false)}
-            onChange={setServiceForm}
+            onChange={setDataService}
             onSave={handleSaveService}
             onDelete={handleRemoveService}
           />
