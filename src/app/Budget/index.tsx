@@ -174,7 +174,6 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
       }
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível carregar os dados.')
-      console.error(error)
     }
   }
 
