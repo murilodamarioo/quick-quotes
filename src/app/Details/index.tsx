@@ -17,7 +17,7 @@ import { colors } from '@/themes'
 import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
 
 export function Details({ navigation, route }: StackRoutesProps<'details'>) {
-  const budgetId = route.params?.id
+  const budgetId = route.params?.id!
 
   const [budget, setBudget] = useState<BudgetStorage | null>(null)
 
@@ -34,6 +34,25 @@ export function Details({ navigation, route }: StackRoutesProps<'details'>) {
     const updatedBugets = bugets.filter(budget => budget.id !== budgetId)
 
     await budgetsStorage.save(updatedBugets)
+    navigation.navigate('home')
+  }
+
+  async function handleDuplicateBudget() {
+    if (!budgetId) return
+
+    const budget = await budgetsStorage.getById(budgetId)
+
+    if (!budget) return
+
+    const duplicated = {
+      ...budget,
+      id: Math.random().toString(36).slice(2),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
+    await budgetsStorage.add(duplicated)
+
     navigation.navigate('home')
   }
 
@@ -173,12 +192,13 @@ export function Details({ navigation, route }: StackRoutesProps<'details'>) {
             name='content-copy'
             viewStyle={{ backgroundColor: colors.GRAY_100, borderWidth: 1, borderColor: colors.GRAY_300 }}
             textStyle={{ color: colors.PURPLE_BASE }}
+            onPress={handleDuplicateBudget}
           />
           <Button
             name='edit'
             viewStyle={{ backgroundColor: colors.GRAY_100, borderWidth: 1, borderColor: colors.GRAY_300 }}
             textStyle={{ color: colors.PURPLE_BASE }}
-            onPress={() => navigation.navigate('budget', { id: budgetId! })}
+            onPress={() => navigation.navigate('budget', { id: budgetId })}
           />
         </View>
         <Button
