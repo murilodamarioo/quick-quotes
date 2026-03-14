@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ServiceProps } from '@/components/ServiceModal'
 
 import { TagStatus } from '@/types/TagStatus'
+import { Ordering } from '@/types/Ordering'
 
 const BUDGETS_STORAGE_KEY = '@quickquotes:budgets'
 
@@ -35,6 +36,51 @@ async function getById(id: string): Promise<BudgetStorage | null> {
   return budget ? budget : null
 }
 
+async function getFiltered(
+  status: TagStatus[],
+  ordering?: Ordering
+): Promise<BudgetStorage[]> {
+  let budgets = await get()
+
+  if (status.length > 0) {
+    budgets = budgets.filter(budget => status.includes(budget.status))
+  }
+
+  if (ordering) {
+    budgets = budgets.slice()
+
+    switch (ordering) {
+      case Ordering.RECENT:
+        budgets.sort((a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        break
+      case Ordering.OLDEST:
+        budgets.sort((a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
+        break
+      case Ordering.HIGHEST_PRICE:
+        budgets.sort((a, b) =>
+          b.services.reduce((acc, s) => acc + s.price, 0) -
+          a.services.reduce((acc, s) => acc + s.price, 0)
+        )
+        break
+      case Ordering.LOWEST_PRICE:
+        budgets.sort((a, b) =>
+          a.services.reduce((acc, s) => acc + s.price, 0) -
+          b.services.reduce((acc, s) => acc + s.price, 0)
+        )
+        break
+      default:
+        budgets.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+        break
+    }
+  }
+
+  return budgets
+}
+
 async function save(budgets: BudgetStorage[]): Promise<void> {
   try {
     await AsyncStorage.setItem(BUDGETS_STORAGE_KEY, JSON.stringify(budgets))
@@ -55,6 +101,7 @@ async function add(newBudget: BudgetStorage): Promise<BudgetStorage[]> {
 export const budgetsStorage = {
   get,
   getById,
+  getFiltered,
   save,
   add
 }

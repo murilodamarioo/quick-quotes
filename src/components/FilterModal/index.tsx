@@ -14,11 +14,12 @@ import { colors } from '@/themes'
 type Props = ModalProps & {
   visible: boolean
   selectedStatus: TagStatus[]
-  ordering: Ordering
+  ordering?: Ordering 
   setOrdering: (ordering: Ordering) => void
   onCloseModal: () => void
   toggleStatus: (status: TagStatus) => void
   onResetFilters: () => void
+  onApplyFilters: () => void
 }
 
 export function FilterModal({
@@ -29,6 +30,7 @@ export function FilterModal({
   onCloseModal,
   toggleStatus,
   onResetFilters,
+  onApplyFilters,
   ...rest
 }: Props) {
 
@@ -103,7 +105,7 @@ export function FilterModal({
               title='Aplicar'
               name='check'
               onPress={() => {
-                console.log('Aplicar filtros')
+                onApplyFilters()
                 onCloseModal()
               }}
               viewStyle={{ backgroundColor: colors.PURPLE_BASE }}

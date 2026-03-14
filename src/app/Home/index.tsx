@@ -20,12 +20,11 @@ import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
 export function Home({ navigation }: StackRoutesProps<'home'>) {
   const [isFilterVisible, setIsFilterVisible] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState<TagStatus[]>([])
-  const [ordering, setOrdering] = useState<Ordering>(Ordering.RECENT)
+  const [ordering, setOrdering] = useState<Ordering>()
   const [budgets, setBudgets] = useState<BudgetStorage[]>([])
 
   function closeModal() {
     setIsFilterVisible(false)
-    resetFilters()
   }
 
   function toggleStatus(status: TagStatus) {
@@ -38,7 +37,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
 
   function resetFilters() {
     setSelectedStatus([])
-    setOrdering(Ordering.RECENT)
+    setOrdering(undefined)
   }
 
   async function fetchData() {
@@ -47,12 +46,21 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
     setBudgets(response)
   }
 
-  function fetchDataWithFilter() {
+  async function fetchDataWithFilter() {
+    const response = await budgetsStorage.getFiltered(selectedStatus, ordering)
 
+    setBudgets(response)
+  }
+
+  function handleApplyFilters() {
+    selectedStatus.length > 0 || ordering
+      ? fetchDataWithFilter()
+      : fetchData()
   }
 
   useEffect(() => {
     fetchData()
+    resetFilters()
   }, [])
 
   return (
@@ -99,7 +107,7 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         toggleStatus={toggleStatus}
         onCloseModal={() => closeModal()}
         onResetFilters={resetFilters}
-        onApplyFilters={fetchDataWithFilter}
+        onApplyFilters={handleApplyFilters}
       />
     </View>
   )
