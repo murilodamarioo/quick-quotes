@@ -162,15 +162,19 @@ export function Details({ navigation, route }: StackRoutesProps<'details'>) {
                     <Text style={styles.subtotalText}>Subtotal</Text>
                     <Text style={styles.subtotalValue}>R$ {totals.subtotal}</Text>
                   </View>
-                  <View style={styles.discount}>
-                    <View style={styles.discountBox}>
-                      <Text style={styles.discountText}>Desconto</Text>
-                      <Text style={styles.discountTag}>{budget.discountPct}% off</Text>
-                    </View>
-                    <Text style={styles.discountValue}>
-                      - R$ {totals.discountValue}
-                    </Text>
-                  </View>
+                  {
+                    budget.discountPct > 0 && (
+                      <View style={styles.discount}>
+                        <View style={styles.discountBox}>
+                          <Text style={styles.discountText}>Desconto</Text>
+                          <Text style={styles.discountTag}>{budget.discountPct}% off</Text>
+                        </View>
+                        <Text style={styles.discountValue}>
+                          - R$ {totals.discountValue}
+                        </Text>
+                      </View>
+                    )
+                  }
                 </View>
                 <View style={{ borderWidth: 1, borderColor: colors.GRAY_200 }}></View>
                 <View style={styles.total}>
