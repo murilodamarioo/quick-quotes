@@ -166,7 +166,7 @@ export function Budget({ navigation, route }: StackRoutesProps<'budget'>) {
         setTitle(budget.title)
         setClient(budget.client)
         setTagType(budget.status)
-        setDiscountPct(budget.discountPct) // Note: Corrigi de discountPct para budget.discountPct
+        setDiscountPct(budget.discountPct)
         setServices(budget.services)
       } else {
         Alert.alert('Erro', 'Orçamento não encontrado.')

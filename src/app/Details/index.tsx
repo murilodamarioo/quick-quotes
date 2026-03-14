@@ -97,7 +97,7 @@ export function Details({ navigation, route }: StackRoutesProps<'details'>) {
         <View style={styles.container}>
           <PageHeader
             title={budget.id}
-            tagStatus={TagStatus.DRAW}
+            tagStatus={budget.status}
             onPress={() => navigation.goBack()}
           />
 
