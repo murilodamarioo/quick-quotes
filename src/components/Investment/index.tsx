@@ -7,6 +7,8 @@ import { DiscountInput } from '../DiscountInput'
 
 import { colors } from '@/themes'
 
+import { calculateDiscount } from '@/utils/discount-utils'
+
 export type InvestmentsProps = {
   subtotal: number
   quantity: number
@@ -20,8 +22,7 @@ type Props = {
 
 export function Investment({ data, onDiscountChange }: Props) {
 
-  const discountAmount = data.subtotal * (data.discountPct / 100)
-  const total = data.subtotal - discountAmount
+  const { discountValue, total } = calculateDiscount(data.subtotal, data.discountPct)
 
   const handleDiscountChange = (text: string) => {
     const parsed = parseFloat(text.replace(/[^0-9.]/g, '')) || 0
@@ -56,7 +57,7 @@ export function Investment({ data, onDiscountChange }: Props) {
             <Text style={styles.minus}>-</Text>
             <CurrencyValue
               textStyle={{ color: colors.DANGER_BASE }}
-              value={discountAmount}
+              value={discountValue}
               size="small"
             />
           </View>

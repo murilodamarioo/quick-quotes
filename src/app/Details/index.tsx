@@ -11,10 +11,12 @@ import { Button } from '@/components/Button'
 import { PageHeader } from '@/components/PageHeader'
 import { CurrencyValue } from '@/components/CurrencyValue'
 
-import { TagStatus } from '@/types/TagStatus'
 
 import { colors } from '@/themes'
+
 import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
+
+import { calculateDiscount } from '@/utils/discount-utils'
 
 export function Details({ navigation, route }: StackRoutesProps<'details'>) {
   const budgetId = route.params?.id!
@@ -79,8 +81,8 @@ export function Details({ navigation, route }: StackRoutesProps<'details'>) {
       (acc, s) => acc + s.price * s.quantity,
       0
     )
-    const discountValue = (subtotal * budget.discountPct) / 100
-    const total = subtotal - discountValue
+
+    const { discountValue, total } = calculateDiscount(subtotal, budget.discountPct)
 
     return { subtotal, discountValue, total }
   }, [budget])

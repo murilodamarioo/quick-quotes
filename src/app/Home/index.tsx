@@ -13,8 +13,12 @@ import { StackRoutesProps } from '@/routes/StackRoutes'
 
 import { TagStatus } from '@/types/TagStatus'
 import { Ordering } from '@/types/Ordering'
+
 import { colors } from '@/themes'
+
 import { budgetsStorage, BudgetStorage } from '@/storage/budgetsStorage'
+
+import { calculateDiscount } from '@/utils/discount-utils'
 
 
 export function Home({ navigation }: StackRoutesProps<'home'>) {
@@ -89,15 +93,19 @@ export function Home({ navigation }: StackRoutesProps<'home'>) {
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
         ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-        renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            client={item.client}
-            status={item.status}
-            price={item.services.reduce((acc, item) => acc + item.price, 0)}
-            onPress={() => navigation.navigate('details', { id: item.id })}
-          />
-        )}
+        renderItem={({ item }) => {
+          const subtotal = item.services.reduce((acc, s) => acc + s.price * s.quantity, 0)
+          const { total } = calculateDiscount(subtotal, item.discountPct)
+          return (
+            <Card
+              title={item.title}
+              client={item.client}
+              status={item.status}
+              price={total}
+              onPress={() => navigation.navigate('details', { id: item.id })}
+            />
+          )
+        }}
       />
       <FilterModal
         visible={isFilterVisible}
